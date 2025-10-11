@@ -20,12 +20,14 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+        <button onClick={() => setCount((count) => count + 1)}>
+          {t('count-text')} {count}
+        </button>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          {t('text.edit')} <code>src/App.tsx</code> {t('text.save_hmt')}
         </p>
       </div>
-      <p className='read-the-docs'>{t('example')}</p>
+      <p className='read-the-docs'>{t('footer')}</p>
     </>
   )
 }

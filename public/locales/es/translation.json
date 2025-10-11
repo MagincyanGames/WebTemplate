@@ -1,0 +1,8 @@
+{
+    "footer": "Esto es una prueba :D",
+    "count-text": "La cuenta es de ",
+    "text": {
+        "edit": "Edita",
+        "save_hmt": "y guarda para probar HMR"
+    }
+}
