@@ -16,8 +16,8 @@ i18n
 
     // Configuración clave para que Backend funcione
     backend: {
-      // Apunta a tu carpeta public/locales
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      // Use Vite's BASE_URL to load translations correctly when deployed to a subpath
+      loadPath: `${import.meta.env.BASE_URL}locales/{{lng}}/{{ns}}.json`,
     },
 
     // Configuración clave para que LanguageDetector funcione
