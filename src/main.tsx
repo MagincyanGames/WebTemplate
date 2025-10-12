@@ -8,7 +8,8 @@ import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* Use Vite's BASE_URL as the router basename so routes work when hosted on a subpath */}
+    <BrowserRouter basename={import.meta.env.BASE_URL || '/'}>
       <App />
     </BrowserRouter>
   </StrictMode>
