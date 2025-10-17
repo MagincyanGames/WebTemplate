@@ -9,6 +9,7 @@ A modern React + TypeScript frontend template built with Vite and optimized with
 - [Available Scripts](#available-scripts)
 - [Technologies](#technologies)
 - [Internationalization (i18n)](#internationalization-i18n)
+- [Custom Hooks](#custom-hooks)
 - [Code Quality](#code-quality)
 - [Deployment](#deployment)
 - [Advanced Configuration](#advanced-configuration)
@@ -171,6 +172,205 @@ i18n
     // ... more config
   })
 ```
+
+---
+
+## Custom Hooks
+
+The project includes a collection of custom React hooks for common functionality located in `src/hooks/SmallHooks.tsx`.
+
+### Screen Size Hooks
+
+These hooks help you track and respond to screen size changes in your React components.
+
+#### `useScreenSizePX()`
+
+Returns the current screen dimensions in pixels.
+
+```tsx
+import { useScreenSizePX } from './hooks/SmallHooks'
+
+function MyComponent() {
+  const { x, y } = useScreenSizePX()
+
+  return (
+    <div>
+      Screen size: {x}px × {y}px
+    </div>
+  )
+}
+```
+
+**Returns:** `{ x: number, y: number }` - Width and height in pixels
+
+#### `useScreenSizeEm()`
+
+Returns the current screen dimensions in EM units (relative to root font size).
+
+```tsx
+import { useScreenSizeEm } from './hooks/SmallHooks'
+
+function MyComponent() {
+  const { x, y } = useScreenSizeEm()
+
+  return (
+    <div>
+      Screen size: {x.toFixed(2)}em × {y.toFixed(2)}em
+    </div>
+  )
+}
+```
+
+**Returns:** `{ x: number, y: number }` - Width and height in EM units
+
+### Responsive Layout Hooks
+
+These hooks help you detect small screens and apply conditional styles or logic.
+
+#### `useIsSmallPX()`
+
+Returns `true` if the screen width is 40 pixels or less.
+
+```tsx
+import { useIsSmallPX } from './hooks/SmallHooks'
+
+function MyComponent() {
+  const isSmall = useIsSmallPX()
+
+  return <div>{isSmall ? <MobileMenu /> : <DesktopMenu />}</div>
+}
+```
+
+**Returns:** `boolean` - True if screen width ≤ 40px
+
+#### `useIsSmallEM()`
+
+Returns `true` if the screen width is 40 EM units or less.
+
+```tsx
+import { useIsSmallEM } from './hooks/SmallHooks'
+
+function MyComponent() {
+  const isSmall = useIsSmallEM()
+
+  return <div style={{ fontSize: isSmall ? '14px' : '16px' }}>Content adapts to screen size</div>
+}
+```
+
+**Returns:** `boolean` - True if screen width ≤ 40em
+
+### CSS Class Helpers
+
+Utility hooks that return CSS class names based on screen size.
+
+#### `useSmallClassPX()`
+
+Returns `'small'` class name if screen width is ≤ 40px, otherwise returns empty string.
+
+```tsx
+import { useSmallClassPX } from './hooks/SmallHooks'
+
+function MyComponent() {
+  const smallClass = useSmallClassPX()
+
+  return <div className={`container ${smallClass}`}>Content</div>
+}
+```
+
+**Returns:** `'small' | ''`
+
+#### `useSmallClassEM()`
+
+Returns `'small'` class name if screen width is ≤ 40em, otherwise returns empty string.
+
+```tsx
+import { useSmallClassEM } from './hooks/SmallHooks'
+
+function MyComponent() {
+  const smallClass = useSmallClassEM()
+
+  return <nav className={`navigation ${smallClass}`}>Menu</nav>
+}
+```
+
+**Returns:** `'small' | ''`
+
+### Usage Examples
+
+**Responsive component with conditional rendering:**
+
+```tsx
+import { useIsSmallEM, useScreenSizePX } from './hooks/SmallHooks'
+
+function Dashboard() {
+  const isSmall = useIsSmallEM()
+  const screenSize = useScreenSizePX()
+
+  return (
+    <div>
+      {isSmall ? <CompactLayout /> : <WideLayout />}
+      <Footer>
+        Viewport: {screenSize.x}×{screenSize.y}
+      </Footer>
+    </div>
+  )
+}
+```
+
+**Applying conditional CSS classes:**
+
+```tsx
+import { useSmallClassEM } from './hooks/SmallHooks'
+
+function Header() {
+  const smallClass = useSmallClassEM()
+
+  return (
+    <header className={`header ${smallClass}`}>
+      <Logo />
+      <Navigation />
+    </header>
+  )
+}
+```
+
+```css
+.header {
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.header.small {
+  padding: 1rem;
+  flex-direction: column;
+  gap: 1rem;
+}
+```
+
+### Notes
+
+- All hooks automatically update on window resize events
+- Hooks clean up event listeners when components unmount
+- EM-based hooks calculate relative to the root element's font size (typically 16px)
+- **The "small" breakpoint is currently set at 40 pixels/em** but can be easily modified directly in `src/hooks/SmallHooks.tsx`:
+
+  ```tsx
+  export function useIsSmallPX(): boolean {
+    const SMALL = 40 // ← Change this value to adjust the breakpoint
+    // ...
+  }
+
+  export function useIsSmallEM(): boolean {
+    const SMALL = 40 // ← Change this value to adjust the breakpoint
+    // ...
+  }
+  ```
+
+  Common breakpoint values:
+  - `768px` / `48em` - Mobile devices
+  - `1024px` / `64em` - Tablets
+  - `1280px` / `80em` - Small desktops
 
 ---
 
